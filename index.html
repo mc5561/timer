@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <title>Geri Sayım Zamanlayıcı</title>
+  <style>
+    body {
+      background-color: black;
+      color: lime;
+      font-family: monospace;
+      text-align: center;
+      padding-top: 100px;
+    }
+    input, button {
+      font-size: 24px;
+      padding: 10px;
+      margin: 10px;
+    }
+    #countdown {
+      font-size: 60px;
+      margin-top: 40px;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>⏳ Geri Sayım Zamanlayıcı</h1>
+  <input type="number" id="secondsInput" placeholder="Saniye gir" min="1">
+  <button onclick="startCountdown()">Başlat</button>
+
+  <div id="countdown">Hazır</div>
+
+  <audio id="beep" preload="auto">
+    <source src="https://actions.google.com/sounds/v1/alarms/beep_short.ogg" type="audio/ogg">
+  </audio>
+
+  <script>
+    let timer;
+    const countdownEl = document.getElementById("countdown");
+    const beep = document.getElementById("beep");
+
+    function startCountdown() {
+      clearInterval(timer);
+      let seconds = parseInt(document.getElementById("secondsInput").value);
+      if (isNaN(seconds) || seconds <= 0) {
+        countdownEl.textContent = "Geçerli bir sayı girin!";
+        return;
+      }
+      countdownEl.textContent = seconds;
+
+      timer = setInterval(() => {
+        if (seconds > 0) {
+          seconds--;
+          countdownEl.textContent = seconds;
+          beep.currentTime = 0;
+          beep.play();
+        } else {
+          clearInterval(timer);
+          countdownEl.textContent = "Süre doldu!";
+        }
+      }, 1000);
+    }
+  </script>
+
+</body>
+</html>
